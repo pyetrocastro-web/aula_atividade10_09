@@ -1,26 +1,17 @@
-import express from "express";
-import { listarEquipamentos } from "./service.js";
+import pool from './db.js';
+
+import express from 'express';
+import dotenv from 'dotenv';
+import routes from './routes/routes.js'; // Ajuste o caminho conforme o local do seu arquivo de rotas
+
+dotenv.config();
 
 const app = express();
-
 app.use(express.json());
+app.use(routes);
 
-app.get("/equipamentos", async (req, res) => {
-    try {
-        const equipamentos = await listarEquipamentos();
-
-        res.json(equipamentos);
-    } catch (error) {
-        console.error("Erro ao consultar o banco:", error);
-
-        res.status(500).json({
-            erro: "Erro ao consultar o banco de dados"
-        });
-    }
-});
-
-const PORT = 3000;
-
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
+
