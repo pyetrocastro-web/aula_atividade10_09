@@ -1,17 +1,31 @@
-import pool from './db.js';
 
-import express from 'express';
+        import express from 'express';
 import dotenv from 'dotenv';
-import routes from './routes/routes.js'; // Ajuste o caminho conforme o local do seu arquivo de rotas
+import { initDb } from './db.js';
+import equipmentRoutes from './routes/equipmentRoutes.js';
 
 dotenv.config();
 
 const app = express();
-app.use(express.json());
-app.use(routes);
-
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+
+app.use(express.json());
+
+
+app.use('/api', equipmentRoutes);
+
+
+app.use((err, req, res, next) => {
+  console.error('Erro interno retornado:', err);
+  res.status(500).json({
+    error: 'Ocorreu um erro interno no servidor. Tente novamente mais tarde.',
+  });
 });
 
+
+initDb().then(() => {
+  app.listen(PORT, () => {
+    console.log(`🚀 Servidor rodando com sucesso na porta ${PORT}`);
+    console.log(`🔗 Teste de status: http://localhost:${PORT}/api/health`);
+  });
+});

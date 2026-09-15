@@ -1,13 +1,16 @@
 {
-  "name": "aula10_09",
+  "name": "sistema-equipamentos-api",
   "version": "1.0.0",
+  "description": "API REST para gerenciamento e empréstimo de equipamentos",
+  "main": "src/server.js",
   "type": "module",
   "scripts": {
+    "start": "node src/server.js",
     "dev": "node --watch src/server.js"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
-    "express": "^4.21.2",
-    "pg": "^8.13.1"
+    "express": "^4.22.3",
+    "pg": "^8.12.0"
   }
 }
